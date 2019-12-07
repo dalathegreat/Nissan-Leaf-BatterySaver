@@ -12,7 +12,7 @@ To preserve battery life. By not charging the battery fully, you avoid long term
 Owners of Nissan Leaf/e-NV200, particularly with bigger batteries (30/40/62kWh)
 
 ## How to use it?
-To set the charge limiter, turn on fresh air circulation, and set fan speed to max (7). You'll see the dash capacity bars start to move, along with the state of charge %. When the desired charge max % is reached, it can be set by turning down the fan speed. Check out the video below.
+To set the charge limiter, turn on re-circulation, and set fan speed to max (7). You'll see the dash capacity bars start to move, along with the state of charge %. When the desired charge max % is reached, it can be set by turning down the fan speed. Check out the video below.
 
 BatterySaver in action, youtube link: 
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/tOSR3UZ7kgU/0.jpg)](https://www.youtube.com/watch?v=tOSR3UZ7kgU)
