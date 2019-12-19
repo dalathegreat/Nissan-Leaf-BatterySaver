@@ -5,14 +5,15 @@
 ██╔══██╗██╔══██║   ██║      ██║   ██╔══╝  ██╔══██╗  ╚██╔╝  ╚════██║██╔══██║╚██╗ ██╔╝██╔══╝  ██╔══██╗
 ██████╔╝██║  ██║   ██║      ██║   ███████╗██║  ██║   ██║   ███████║██║  ██║ ╚████╔╝ ███████╗██║  ██║
 ╚═════╝ ╚═╝  ╚═╝   ╚═╝      ╚═╝   ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝
--Version 1.1
+-Version 1.2
 */
 
 //Globals
 #define 	BATTERY_SAVER
 volatile	uint16_t	ChargeSetModeCounter 	= 0;
 volatile	uint8_t 	timeToSetCapacityDisplay = 0;
-volatile	uint8_t		SetCapacityDisplay 		= 0;
+volatile	uint8_t		SetCapacityDisplay 	= 0;
+volatile	uint8_t		carParked		= 1;
 #define 	FADE_OUT_CAP_AFTER_SETTING_CHARGEMAX 50
 
 //locals for 0x54B
@@ -24,7 +25,7 @@ volatile	uint8_t		SetCapacityDisplay 		= 0;
 	VentModeStatus = (frame.data[3]); 
 	FanSpeed = ((frame.data[4] & 0xF8) >> 3); //Fan speed is 0-7
 
-	if (FanSpeed == 7 && VentModeStatus == 0x09) //Only enter chargemode setting when recirc is on and fan speed is max (7)
+	if (FanSpeed == 7 && VentModeStatus == 0x09 && carParked == 1) //Only set chargemax when recirc is on, fan speed is max (7) and car is parked
 	{
 		ChargeSetModeCounter++;	//increment for each 100ms can message
 		
@@ -113,6 +114,19 @@ volatile	uint8_t		SetCapacityDisplay 		= 0;
 	{
 		frame.data[1] = (frame.data[1] & 0xE0) | 2; //request charging stop
 	}
+	#endif
+
+	#ifdef BATTERY_SAVER
+	case 0x11A: //Collect shifter joystick data, check if we are in park or not
+		if((frame.data[0] & 0xF0) == 0)
+		{
+			carParked = 1;
+		}
+		else 
+		{
+			carParked = 0;
+		}
+		break;
 	#endif
 
 	break;
